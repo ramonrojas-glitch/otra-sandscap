@@ -1,0 +1,39 @@
+{
+  "negocio": "otra",
+  "nombre": "OTRA",
+  "nombreLegal": "OTRA Hamburguesa",
+  "dominio": "otra.sandscap.io",
+  "logo": "/img/otra-logo.svg",
+  "logoBlanco": "/img/otra-logo-blanco.svg",
+  "favicon": "/img/favicon.png",
+  "color": "#EFAE2E",
+  "colorSobreMarca": "#1F1A15",
+  "colorTexto": "#1F1A15",
+  "colorFondo": "#FBFAF6",
+  "fuenteTitulos": "Bricolage Grotesque",
+  "fuenteTexto": "Figtree",
+  "googleFonts": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,500;12..96,800&family=Figtree:wght@400;500;600;700&display=swap",
+  "prefijoOrden": "OT",
+  "moneda": "RD$",
+  "envio": 150,
+  "entrega": { "delivery": true, "pickup": true, "deliveryMin": 35, "deliveryMax": 50, "pickupMin": 20 },
+  "sectores": ["Piantini", "Naco", "Evaristo Morales", "Serrallés", "Paraíso", "Bella Vista", "Los Cacicazgos", "Mirador Norte", "Arroyo Hondo", "Gazcue", "Ensanche Julieta", "Zona Colonial"],
+  "tienda": {
+    "direccion": "Av. Abraham Lincoln 1003, Piantini",
+    "ciudad": "Santo Domingo",
+    "mapa": "https://maps.google.com/?q=Av.+Abraham+Lincoln+1003,+Piantini,+Santo+Domingo"
+  },
+  "producto": { "singular": "hamburguesa", "plural": "hamburguesas" },
+  "etapas": {
+    "preparando": "Preparando tu hamburguesa",
+    "coccion": "En la plancha",
+    "coccionTexto": "Sellando la carne y tostando el pan brioche. Ya casi."
+  },
+  "contacto": {
+    "direccion": "[Dirección del local]",
+    "telefono": "[Teléfono / WhatsApp]",
+    "correo": "[Correo]",
+    "instagram": "[@usuario]"
+  },
+  "idioma": "es"
+}

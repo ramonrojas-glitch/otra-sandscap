@@ -64,7 +64,11 @@ a{color:inherit}
 .nav a:hover{color:var(--ink)}
 .cart-btn{min-height:42px;padding:0 1em;white-space:nowrap}
 .cart-btn .count{background:var(--mostaza);color:var(--ink-on-accent);border-radius:999px;min-width:22px;height:22px;display:inline-grid;place-items:center;font-size:.8rem;padding:0 6px}
-@media (max-width:820px){.nav{display:none}.cart-btn{margin-left:auto}.cart-btn .mi{display:none}.top .cart-btn .pe{display:inline}}
+.mis-m{display:none}
+@media (max-width:820px){.nav{display:none}.cart-btn{margin-left:auto}.cart-btn .mi{display:none}.top .cart-btn .pe{display:inline}
+  .top .wrap{gap:10px}
+  .mis-m{display:grid;place-items:center;flex:none;width:42px;height:42px;border-radius:50%;margin-left:auto;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line);text-decoration:none}
+  .mis-m + .cart-btn{margin-left:0}}
 .cart-btn .pe{display:none}
 
 /* Hero */
@@ -216,23 +220,15 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
 .totals{display:flex;justify-content:space-between;align-items:baseline;padding:16px 0 4px;font-size:1.1rem}
 .totals .price{font-size:1.4rem}
 .note{font-size:.82rem;color:var(--muted)}
-form.checkout{display:grid;gap:12px;margin-top:18px}
-form.checkout label{display:grid;gap:6px;font-weight:600;font-size:.9rem}
-form.checkout input,form.checkout textarea{font:inherit;padding:12px 14px;border-radius:14px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);min-height:46px}
-form.checkout textarea{min-height:80px;resize:vertical}
-.seg{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:var(--bg);border:1.5px solid var(--line);border-radius:999px;padding:4px}
-.seg input{position:absolute;opacity:0;pointer-events:none}
-.seg label{display:grid;place-items:center;min-height:40px;border-radius:999px;font-weight:600;cursor:pointer}
-.seg input:checked + label{background:var(--ink);color:var(--bg)}
-.seg input:focus-visible + label{outline:3px solid var(--mostaza)}
-.err{color:var(--tomate);font-size:.85rem;font-weight:600}
-.ok{background:color-mix(in srgb,var(--lima) 30%,var(--surface));border-radius:18px;padding:18px;margin-top:18px}
-.ok b{display:block;font-size:1.1rem}
+.pagar{width:100%;margin-top:18px;min-height:52px;font-size:1.05rem}
+.drawer .vault-line{margin-top:12px}
 
 /* Sticky order bar (mobile) + toast */
 .orderbar{position:fixed;left:0;right:0;bottom:0;z-index:50;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));background:var(--surface);border-top:1px solid var(--line);display:none}
 .orderbar .btn{width:100%;justify-content:space-between}
-@media (max-width:820px){.orderbar.show{display:block}}
+@media (max-width:820px){.orderbar.show{display:block}
+  /* La píldora "Tu pedido" de Brinco sube cuando la barra del pedido está visible */
+  body.ob-on .bk-pill{bottom:calc(78px + env(safe-area-inset-bottom,0px))}}
 .toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:var(--ink);color:var(--bg);padding:12px 18px;border-radius:999px;font-weight:600;opacity:0;transition:.25s;z-index:70;pointer-events:none;max-width:calc(100% - 32px);text-align:center}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 
@@ -260,11 +256,16 @@ html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + var(--header-h) + 8p
 .vault-line{display:flex;align-items:flex-start;justify-content:center;gap:7px;margin:0;font-size:12.5px;line-height:1.45;text-align:left;text-wrap:pretty;letter-spacing:normal;text-transform:none}
 .vault-line svg{margin-top:1px}
 .fvault b,.vault-line b{font-weight:600}
+footer .flinks{flex-basis:100%;display:flex;flex-wrap:wrap;gap:6px 18px}
+footer .flinks a{color:var(--muted);text-underline-offset:3px}
+footer .flinks a:hover{color:var(--ink)}
 footer .fvault{flex-basis:100%;color:var(--muted)}footer .fvault svg{color:var(--ink)}footer .fvault b{color:var(--ink)}
 .vault-line{margin-top:2px;color:var(--muted)}.vault-line svg,.vault-line b{color:var(--ink)}
 </style>
 <link rel="icon" type="image/png" sizes="64x64" href="img/favicon.png">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<link rel="stylesheet" href="https://piezza.sandscap.com.do/brinco/v1/kit.css">
+<script src="https://piezza.sandscap.com.do/brinco/v1/kit.js" defer></script>
 </head>
 <body>
 <header class="top">
@@ -275,7 +276,9 @@ footer .fvault{flex-basis:100%;color:var(--muted)}footer .fvault svg{color:var(-
       <a href="#arma">Arma la tuya</a>
       <a href="#bebidas">Bebidas</a>
       <a href="#pedir">Cómo pedir</a>
+      <a data-brinco="mis-pedidos" href="/pedido/">Mis pedidos</a>
     </nav>
+    <a class="mis-m" href="/pedido/" aria-label="Mis pedidos" title="Mis pedidos"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></a>
     <button class="btn cart-btn" id="openCart" type="button" aria-label="Ver mi pedido"><span class="mi">Mi pedido</span><span class="pe">Pedido</span> <span class="count" id="cartCount">0</span></button>
   </div>
 </header>
@@ -357,7 +360,8 @@ footer .fvault{flex-basis:100%;color:var(--muted)}footer .fvault svg{color:var(-
     <span><b>OTRA</b> hamburguesa · Delivery y para recoger</span>
     <span>Precios en pesos dominicanos (RD$)</span>
     <a href="#inicio">Volver arriba ↑</a>
-    <p class="fvault"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.6-3 8.4-7 10-4-1.6-7-5.4-7-10V6z"/><rect x="9" y="11" width="6" height="5" rx="1"/><path d="M10.5 11V9.6a1.5 1.5 0 0 1 3 0V11"/></svg><span>Brinco no guarda tarjetas. Tus datos de pago quedan protegidos por el procesador certificado PCI DSS: <b>AZUL</b>, <b>CardNet</b> o <b>MIO</b>.</span></p>
+    <nav class="flinks" aria-label="Enlaces del pie"><a href="/pedido/">Mis pedidos</a><a href="/seguridad/">Seguridad</a><a href="/privacidad/">Privacidad</a><a href="/terminos/">Términos</a></nav>
+    <p class="fvault" data-brinco="vault-footer"></p>
   </div>
 </footer>
 
@@ -687,7 +691,8 @@ addEventListener("scroll", marcarBarra, {passive:true}); marcarBarra();
 function addItem(it){
   const ex = cart.find(c => c.key === it.key);
   if(ex) ex.q++; else cart.push({...it, q:1});
-  save(); renderCart(); toast("Agregamos " + it.t + " a tu pedido"); avisoAgregado(it.t);
+  save(); renderCart(); avisoAgregado(it.t);
+  try { if(window.Brinco && Brinco.track) Brinco.track("carrito", {producto: it.t, total: total()}); } catch(e){}
 }
 document.addEventListener("click", ev => {
   const bb = ev.target.closest("[data-bebida]");
@@ -698,21 +703,13 @@ document.addEventListener("click", ev => {
 });
 const total = () => cart.reduce((s,c) => s + c.p*c.q, 0);
 const count = () => cart.reduce((s,c) => s + c.q, 0);
-let estado = "carrito"; // carrito | listo
-let ultimoNombre = "";
 function renderCart(){
   $("#cartCount").textContent = count();
   $("#obCount").textContent = count();
   $("#obTotal").textContent = money(total());
   $("#orderbar").classList.toggle("show", count() > 0);
+  document.body.classList.toggle("ob-on", count() > 0);
   const items = $("#cartItems"), bottom = $("#cartBottom");
-  if(estado === "listo"){
-    items.innerHTML = "";
-    bottom.innerHTML = `<div class="ok"><b>¡Gracias, ${esc(ultimoNombre)}!</b><p>Recibimos tu pedido. Esta es una vista previa de la tienda: aquí se conecta el pago con tarjeta cuando la publiquemos.</p></div>
-      <button class="btn alt" type="button" id="nuevo" style="margin-top:16px;width:100%">Hacer otro pedido</button>`;
-    $("#nuevo").onclick = () => { estado = "carrito"; renderCart(); };
-    return;
-  }
   if(!cart.length){
     items.innerHTML = `<p class="empty">Tu pedido está vacío.<br>Agrega una hamburguesa del menú o arma la tuya.</p>`;
     bottom.innerHTML = ""; return;
@@ -726,35 +723,17 @@ function renderCart(){
   if(!cart.some(c => c.key.startsWith("beb-"))){
     items.innerHTML += `<div class="upsell"><b>¿Algo de tomar?</b><div class="chips">${BEBIDAS.map(x => `<button class="chip" type="button" data-bebida="${x.id}">+ ${x.nombre} · ${money(x.precio)}</button>`).join("")}</div></div>`;
   }
-  if(!bottom.querySelector("form")){
+  if(!bottom.querySelector("#pagar")){
     bottom.innerHTML = `
       <div class="totals"><span>Total</span><span class="price" id="cartTotal"></span></div>
-      <p class="note">Precios en RD$.</p>
-      <form class="checkout" id="checkout" novalidate>
-        <label for="f-nombre">Nombre<input id="f-nombre" name="nombre" autocomplete="name" placeholder="¿A nombre de quién?"></label>
-        <label for="f-tel">Teléfono<input id="f-tel" name="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="809-555-0123"></label>
-        <div class="seg" role="radiogroup" aria-label="Entrega">
-          <input type="radio" name="entrega" id="e-del" value="delivery" checked><label for="e-del">Delivery</label>
-          <input type="radio" name="entrega" id="e-rec" value="recoger"><label for="e-rec">Recoger</label>
-        </div>
-        <label for="f-dir" id="dirWrap">Dirección<textarea id="f-dir" name="dir" autocomplete="street-address" placeholder="Calle, número, sector y una referencia"></textarea></label>
-        <p class="err" id="ferr" hidden></p>
-        <button class="btn amarillo" type="submit">Continuar al pago con tarjeta</button>
-        <p class="vault-line"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.6-3 8.4-7 10-4-1.6-7-5.4-7-10V6z"/><rect x="9" y="11" width="6" height="5" rx="1"/><path d="M10.5 11V9.6a1.5 1.5 0 0 1 3 0V11"/></svg><span>Brinco no guarda tu tarjeta. La protegen <b>AZUL</b>, <b>CardNet</b> o <b>MIO</b>.</span></p>
-      </form>`;
-    const f = $("#checkout");
-    f.addEventListener("change", () => { $("#dirWrap").hidden = f.entrega.value !== "delivery"; });
-    f.addEventListener("submit", ev => {
-      ev.preventDefault();
-      const nombre = f.nombre.value.trim(), tel = f.tel.value.replace(/\D/g,""), dir = f.dir.value.trim();
-      let msg = "";
-      if(!nombre) msg = "Escribe tu nombre para saber a quién entregarle.";
-      else if(tel.length < 10) msg = "Escribe un teléfono de 10 dígitos, por ejemplo 809-555-0123.";
-      else if(f.entrega.value === "delivery" && dir.length < 8) msg = "Escribe la dirección completa para el delivery.";
-      const er = $("#ferr"); er.textContent = msg; er.hidden = !msg;
-      if(msg) return;
-      ultimoNombre = nombre.split(" ")[0]; cart = []; save(); estado = "listo"; renderCart();
+      <p class="note">Precios en RD$. El envío se calcula al elegir delivery o recoger.</p>
+      <button class="btn amarillo pagar" type="button" id="pagar">Pagar mi pedido</button>
+      <p class="vault-line" data-brinco="vault-footer"></p>`;
+    $("#pagar").addEventListener("click", () => {
+      if(window.Brinco && Brinco.checkout) Brinco.checkout();
+      else toast("Un momento, estamos cargando el pago…");
     });
+    try { if(window.Brinco && Brinco.fill) Brinco.fill(bottom); } catch(e){}
   }
   $("#cartTotal").textContent = money(total());
 }
@@ -765,6 +744,18 @@ $("#cartItems").addEventListener("click", ev => {
   save(); renderCart();
 });
 const esc = s => String(s).replace(/[&<>"]/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]));
+/* Brinco: el pago lo hace el kit compartido; aquí solo exponemos el pedido */
+const imgDe = key => {
+  if(key.startsWith("beb-")){ const b = BEBIDAS.find(x => "beb-"+x.id === key); return b ? "/img/"+b.img+".webp" : "/img/favicon.png"; }
+  if(key.startsWith("custom:")) return "/img/hamburguesa.webp";
+  return "/img/hamburguesa.webp";
+};
+window.BrincoCart = {
+  items(){ return cart.map(c => ({name:c.t, detail:c.d, qty:c.q, unit:c.p, img:imgDe(c.key)})); },
+  total(){ return total(); },
+  clear(){ cart = []; save(); renderCart(); },
+  close(){ openCart(false); }
+};
 function openCart(v){
   $("#drawer").classList.toggle("open", v); $("#scrim").classList.toggle("open", v);
   $("#drawer").setAttribute("aria-hidden", String(!v));
