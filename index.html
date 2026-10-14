@@ -241,6 +241,16 @@ form.checkout textarea{min-height:80px;resize:vertical}
   .hint .arrow{animation:none}
   .stack.anim img,.drawer,.scrim,.toast{transition:none}
 }
+
+/* Barra fija: siempre visible, sombra al bajar y aviso de "agregado" junto al botón del pedido */
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + var(--header-h) + 8px)}
+.top{transition:box-shadow .2s ease}
+.top.scrolled{box-shadow:0 8px 22px -14px var(--shadow)}
+.cart-btn .count.bump{animation:otraBump .45s ease}
+@keyframes otraBump{40%{transform:scale(1.4)}}
+.cart-note{position:absolute;top:calc(100% + 8px);right:var(--gutter);max-width:min(300px,calc(100vw - 32px));padding:8px 14px;border-radius:999px;background:var(--ink);color:var(--bg);font-weight:700;font-size:.86rem;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;box-shadow:0 10px 24px -12px var(--shadow);opacity:0;visibility:hidden;transform:translateY(-4px);transition:opacity .2s ease,transform .2s ease,visibility 0s linear .2s;pointer-events:none}
+.cart-note.show{opacity:1;visibility:visible;transform:none;transition:opacity .2s ease,transform .2s ease}
+@media (prefers-reduced-motion: reduce){.top,.cart-note,.cart-note.show{transition:none}.cart-note{transform:none}.cart-btn .count.bump{animation:none}}
 </style>
 <link rel="icon" type="image/png" sizes="64x64" href="img/favicon.png">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
@@ -648,10 +658,24 @@ $("#dgrid").innerHTML = BEBIDAS.map(b => `
 let cart = [];
 try { cart = JSON.parse(localStorage.getItem("otra-pedido") || "[]") || []; } catch(e) { cart = []; }
 const save = () => { try { localStorage.setItem("otra-pedido", JSON.stringify(cart)); } catch(e){} };
+/* Aviso junto al botón del pedido (la barra de arriba queda fija al bajar) */
+const topBar = $(".top"), cartNote = document.createElement("div");
+cartNote.className = "cart-note"; cartNote.setAttribute("aria-hidden", "true"); topBar.appendChild(cartNote);
+let cartNoteT;
+function avisoAgregado(nombre){
+  const h = topBar.getBoundingClientRect(), b = $("#openCart").getBoundingClientRect();
+  cartNote.style.right = Math.max(8, Math.round(h.right - b.right)) + "px";
+  cartNote.textContent = "✓ " + nombre + " en tu pedido";
+  cartNote.classList.add("show");
+  const c = $("#cartCount"); c.classList.remove("bump"); void c.offsetWidth; c.classList.add("bump");
+  clearTimeout(cartNoteT); cartNoteT = setTimeout(() => cartNote.classList.remove("show"), 2200);
+}
+const marcarBarra = () => topBar.classList.toggle("scrolled", scrollY > 8);
+addEventListener("scroll", marcarBarra, {passive:true}); marcarBarra();
 function addItem(it){
   const ex = cart.find(c => c.key === it.key);
   if(ex) ex.q++; else cart.push({...it, q:1});
-  save(); renderCart(); toast("Agregamos " + it.t + " a tu pedido");
+  save(); renderCart(); toast("Agregamos " + it.t + " a tu pedido"); avisoAgregado(it.t);
 }
 document.addEventListener("click", ev => {
   const bb = ev.target.closest("[data-bebida]");
