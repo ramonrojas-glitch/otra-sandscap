@@ -251,6 +251,17 @@ html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + var(--header-h) + 8p
 .cart-note{position:absolute;top:calc(100% + 8px);right:var(--gutter);max-width:min(300px,calc(100vw - 32px));padding:8px 14px;border-radius:999px;background:var(--ink);color:var(--bg);font-weight:700;font-size:.86rem;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;box-shadow:0 10px 24px -12px var(--shadow);opacity:0;visibility:hidden;transform:translateY(-4px);transition:opacity .2s ease,transform .2s ease,visibility 0s linear .2s;pointer-events:none}
 .cart-note.show{opacity:1;visibility:visible;transform:none;transition:opacity .2s ease,transform .2s ease}
 @media (prefers-reduced-motion: reduce){.top,.cart-note,.cart-note.show{transition:none}.cart-note{transform:none}.cart-btn .count.bump{animation:none}}
+
+/* Las capas de cada hamburguesa usan z-index alto: se encierran aquí para que no tapen la barra de arriba, las pestañas ni el pedido */
+.stack{z-index:1}
+/* Aviso de confianza: Brinco no guarda tarjetas (las protege AZUL, CardNet o MIO) */
+.fvault{display:flex;align-items:flex-start;gap:8px;max-width:560px;margin:0;font-size:13px;line-height:1.55;text-align:left;text-wrap:pretty;letter-spacing:normal;text-transform:none}
+.fvault svg,.vault-line svg{flex:none;margin-top:2px}
+.vault-line{display:flex;align-items:flex-start;justify-content:center;gap:7px;margin:0;font-size:12.5px;line-height:1.45;text-align:left;text-wrap:pretty;letter-spacing:normal;text-transform:none}
+.vault-line svg{margin-top:1px}
+.fvault b,.vault-line b{font-weight:600}
+footer .fvault{flex-basis:100%;color:var(--muted)}footer .fvault svg{color:var(--ink)}footer .fvault b{color:var(--ink)}
+.vault-line{margin-top:2px;color:var(--muted)}.vault-line svg,.vault-line b{color:var(--ink)}
 </style>
 <link rel="icon" type="image/png" sizes="64x64" href="img/favicon.png">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
@@ -346,6 +357,7 @@ html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + var(--header-h) + 8p
     <span><b>OTRA</b> hamburguesa · Delivery y para recoger</span>
     <span>Precios en pesos dominicanos (RD$)</span>
     <a href="#inicio">Volver arriba ↑</a>
+    <p class="fvault"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.6-3 8.4-7 10-4-1.6-7-5.4-7-10V6z"/><rect x="9" y="11" width="6" height="5" rx="1"/><path d="M10.5 11V9.6a1.5 1.5 0 0 1 3 0V11"/></svg><span>Brinco no guarda tarjetas. Tus datos de pago quedan protegidos por el procesador certificado PCI DSS: <b>AZUL</b>, <b>CardNet</b> o <b>MIO</b>.</span></p>
   </div>
 </footer>
 
@@ -728,6 +740,7 @@ function renderCart(){
         <label for="f-dir" id="dirWrap">Dirección<textarea id="f-dir" name="dir" autocomplete="street-address" placeholder="Calle, número, sector y una referencia"></textarea></label>
         <p class="err" id="ferr" hidden></p>
         <button class="btn amarillo" type="submit">Continuar al pago con tarjeta</button>
+        <p class="vault-line"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.6-3 8.4-7 10-4-1.6-7-5.4-7-10V6z"/><rect x="9" y="11" width="6" height="5" rx="1"/><path d="M10.5 11V9.6a1.5 1.5 0 0 1 3 0V11"/></svg><span>Brinco no guarda tu tarjeta. La protegen <b>AZUL</b>, <b>CardNet</b> o <b>MIO</b>.</span></p>
       </form>`;
     const f = $("#checkout");
     f.addEventListener("change", () => { $("#dirWrap").hidden = f.entrega.value !== "delivery"; });
